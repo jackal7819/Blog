@@ -1,8 +1,8 @@
-import React from 'react';
 import Button from '@mui/material/Button';
-
-import styles from './Header.module.scss';
 import Container from '@mui/material/Container';
+import { Link } from 'react-router-dom';
+import React from 'react';
+import styles from './Header.module.scss';
 
 export const Header = () => {
     const isAuth = false;
@@ -13,17 +13,17 @@ export const Header = () => {
         <div className={styles.root}>
             <Container maxWidth='lg'>
                 <div className={styles.inner}>
-                    <a className={styles.logo} href='/'>
+                    <Link className={styles.logo} to='/'>
                         <div>VIKTOR FILIPPOV</div>
-                    </a>
+                    </Link>
                     <div className={styles.buttons}>
                         {isAuth ? (
                             <>
-                                <a href='/posts/create'>
+                                <Link to='/posts/create'>
                                     <Button variant='contained'>
                                         Write an article
                                     </Button>
-                                </a>
+                                </Link>
                                 <Button
                                     onClick={onClickLogout}
                                     variant='contained'
@@ -33,14 +33,14 @@ export const Header = () => {
                             </>
                         ) : (
                             <>
-                                <a href='/login'>
+                                <Link to='/login'>
                                     <Button variant='outlined'>Log in</Button>
-                                </a>
-                                <a href='/register'>
+                                </Link>
+                                <Link to='/register'>
                                     <Button variant='contained'>
                                         Create an account
                                     </Button>
-                                </a>
+                                </Link>
                             </>
                         )}
                     </div>

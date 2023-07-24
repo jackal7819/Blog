@@ -1,17 +1,17 @@
-import express from 'express';
-import bearerToken from 'express-bearer-token';
-import multer from 'multer';
-import mongoose from 'mongoose';
-
-import { register, login, getMe } from './controllers/UserController.js';
-import { getAll, getOne } from './controllers/PostController.js';
 import { create, remove, update } from './controllers/PostController.js';
+import { getAll, getLastTags, getOne } from './controllers/PostController.js';
+import { getMe, login, register } from './controllers/UserController.js';
 
-import registerValidation from './validations/loginValidation.js';
-import loginValidation from './validations/loginValidation.js';
-import postCreateValidation from './validations/postCreateValidation.js';
+import bearerToken from 'express-bearer-token';
 import checkAuth from './utils/checkAuth.js';
+import cors from 'cors';
+import express from 'express';
 import handleValidation from './utils/handleValidation.js';
+import loginValidation from './validations/loginValidation.js';
+import mongoose from 'mongoose';
+import multer from 'multer';
+import postCreateValidation from './validations/postCreateValidation.js';
+import registerValidation from './validations/loginValidation.js';
 
 const mongoDBURL =
     'mongodb+srv://jackal7819:31563156Qaz@blog.zprrjlj.mongodb.net/blog?retryWrites=true&w=majority';
@@ -39,6 +39,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(express.json());
+app.use(cors());
 app.use('/uploads', express.static('src/uploads'));
 
 app.post('/auth/login', loginValidation, handleValidation, login);
@@ -60,6 +61,8 @@ app.patch(
     handleValidation,
     update
 );
+
+app.get('/tags', getLastTags);
 
 app.listen(5555, () => {
     console.log('Server is running on port 5555');

@@ -11,6 +11,20 @@ export const getAll = async (req, res) => {
     }
 };
 
+export const getLastTags = async (req, res) => {
+    try {
+        const posts = await PostModel.find().limit(5).exec();
+
+        const tagsSet = new Set(posts.map((obj) => obj.tags).flat());
+        const tags = Array.from(tagsSet).slice(-5);
+
+        res.json(tags);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Failed to get tags' });
+    }
+};
+
 export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;
