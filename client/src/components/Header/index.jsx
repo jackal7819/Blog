@@ -1,3 +1,6 @@
+import { handlerAuth, logout } from '../../redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
@@ -5,9 +8,13 @@ import React from 'react';
 import styles from './Header.module.scss';
 
 export const Header = () => {
-    const isAuth = false;
+    const dispatch = useDispatch();
+    const isAuth = useSelector(handlerAuth);
 
-    const onClickLogout = () => {};
+    const onClickLogout = () => {
+        dispatch(logout());
+        window.localStorage.removeItem('token');
+    };
 
     return (
         <div className={styles.root}>
@@ -28,18 +35,16 @@ export const Header = () => {
                                     onClick={onClickLogout}
                                     variant='contained'
                                     color='error'>
-                                    Get out
+                                    Logout
                                 </Button>
                             </>
                         ) : (
                             <>
                                 <Link to='/login'>
-                                    <Button variant='outlined'>Log in</Button>
+                                    <Button variant='outlined'>Login</Button>
                                 </Link>
                                 <Link to='/register'>
-                                    <Button variant='contained'>
-                                        Create an account
-                                    </Button>
+                                    <Button variant='contained'>Sign Up</Button>
                                 </Link>
                             </>
                         )}

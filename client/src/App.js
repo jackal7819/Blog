@@ -1,8 +1,10 @@
 import { AddPost, FullPost, Home, Login, Registration } from './pages';
+import { Fragment, useEffect } from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { fetchAuthMe, handlerAuth } from './redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Container } from '@mui/material';
-import { Fragment } from 'react';
 import { Header } from './components/Header';
 
 const router = createBrowserRouter([
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+    const dispatch = useDispatch();
+    const auth = useSelector(handlerAuth);
+
+    useEffect(() => {
+        dispatch(fetchAuthMe())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    
     return <RouterProvider router={router} />;
 };
 
