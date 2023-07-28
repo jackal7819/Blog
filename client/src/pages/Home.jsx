@@ -11,6 +11,7 @@ import { TagsBlock } from '../components/TagsBlock';
 
 export const Home = () => {
     const dispatch = useDispatch();
+    const userData = useSelector((state) => state.auth.data);
     const { posts, tags } = useSelector((state) => state.posts);
 
     const postsLoading = posts.status === 'loading';
@@ -20,6 +21,8 @@ export const Home = () => {
         dispatch(fetchPosts());
         dispatch(fetchTags());
     }, [dispatch]);
+
+    console.log(userData?._id);
 
     return (
         <Fragment>
@@ -50,7 +53,7 @@ export const Home = () => {
                                     viewsCount={obj.viewsCount}
                                     commentsCount={3}
                                     tags={obj.tags}
-                                    isEditable
+                                    isEditable={userData?._id === obj.user._id}
                                 />
                             )
                     )}

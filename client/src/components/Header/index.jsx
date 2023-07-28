@@ -7,9 +7,13 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import styles from './Header.module.scss';
 
+// import { useEffect, useState } from 'react';
+
+
 export const Header = () => {
     const dispatch = useDispatch();
     const isAuth = useSelector(handlerAuth);
+    const userData = useSelector((state) => state.auth.data);
 
     const onClickLogout = () => {
         dispatch(logout());
@@ -21,7 +25,7 @@ export const Header = () => {
             <Container maxWidth='lg'>
                 <div className={styles.inner}>
                     <Link className={styles.logo} to='/'>
-                        <div>VIKTOR FILIPPOV</div>
+                        <div>{userData?.fullName ? userData.fullName : 'VIKTOR FILIPPOV'}</div>
                     </Link>
                     <div className={styles.buttons}>
                         {isAuth ? (

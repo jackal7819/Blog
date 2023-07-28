@@ -24,16 +24,23 @@ export const Login = () => {
             email: '',
             password: '',
         },
-        mode: 'onSubmit',
+        mode: 'onChange',
     });
 
     const onSubmit = async (values) => {
-        const { payload } = await dispatch(fetchAuth(values));
+    try {
+        const { payload, error } = await dispatch(fetchAuth(values));
 
-        if ('token' in payload) {
+        if (error) {
+            setError('email', { message: 'Invalid email or password' });
+        } else if ('token' in payload) {
             window.localStorage.setItem('token', payload.token);
         }
-    };
+    } catch (error) {
+        console.error('Error during authentication:', error);
+        setError('email', { message: 'An error occurred during authentication' });
+    }
+};
 
     if (isAuth) {
         return <Navigate to='/' />;
@@ -70,6 +77,7 @@ export const Login = () => {
                     fullWidth
                 />
                 <Button
+                    disabled={!isValid}
                     type='submit'
                     size='large'
                     variant='contained'
