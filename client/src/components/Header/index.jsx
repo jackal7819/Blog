@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
-import React from 'react';
 import styles from './Header.module.scss';
-
-// import { useEffect, useState } from 'react';
-
 
 export const Header = () => {
     const dispatch = useDispatch();

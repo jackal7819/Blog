@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CommentsBlock } from '../components/CommentsBlock';
 import { Index } from '../components/AddComment';
 import { Post } from '../components/Post';
+import ReactMarkdown from 'react-markdown';
 import axios from '../axios';
 import { useParams } from 'react-router-dom';
 
@@ -36,8 +37,9 @@ export const FullPost = () => {
                 _id={data._id}
                 key={data._id}
                 title={data.title}
-                imageUrl={data.imageUrl}
-                // imageUrl='https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png'
+                imageUrl={
+                    data.imageUrl ? `http://localhost:5555${data.imageUrl}` : ''
+                }
                 user={data.user}
                 createdAt={new Date(data.createdAt).toLocaleString()}
                 viewsCount={data.viewsCount}
@@ -45,7 +47,7 @@ export const FullPost = () => {
                 tags={data.tags}
                 isEditable
                 isFullPost>
-                <p>{data.text}</p>
+                <ReactMarkdown children={data.text} />
             </Post>
             <CommentsBlock
                 items={[

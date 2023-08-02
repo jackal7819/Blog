@@ -1,5 +1,4 @@
 import Paper from '@mui/material/Paper';
-import React from 'react';
 import Typography from '@mui/material/Typography';
 import styles from './SideBlock.module.scss';
 

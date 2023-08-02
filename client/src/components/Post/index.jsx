@@ -1,14 +1,17 @@
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import DeleteConfirmationDialog from '../DeleteConfirmationDialog';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
 import { PostSkeleton } from './Skeleton';
-import React from 'react';
 import { UserInfo } from '../UserInfo';
 import clsx from 'clsx';
+import { fetchRemovePost } from '../../redux/postsSlice';
 import styles from './Post.module.scss';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 export const Post = ({
     _id,
@@ -24,11 +27,25 @@ export const Post = ({
     isLoading,
     isEditable,
 }) => {
+    const dispatch = useDispatch();
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
     if (isLoading) {
         return <PostSkeleton />;
     }
 
-    const onClickRemove = () => {};
+    const handleOpenDeleteDialog = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const handleCloseDeleteDialog = () => {
+        setDeleteDialogOpen(false);
+    };
+
+    const handleConfirmDelete = () => {
+        dispatch(fetchRemovePost(_id));
+        setDeleteDialogOpen(false);
+    };
 
     return (
         <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
@@ -39,7 +56,9 @@ export const Post = ({
                             <EditIcon />
                         </IconButton>
                     </Link>
-                    <IconButton onClick={onClickRemove} color='secondary'>
+                    <IconButton
+                        onClick={handleOpenDeleteDialog}
+                        color='secondary'>
                         <DeleteIcon />
                     </IconButton>
                 </div>
@@ -88,6 +107,11 @@ export const Post = ({
                     </ul>
                 </div>
             </div>
+            <DeleteConfirmationDialog
+                open={deleteDialogOpen}
+                onClose={handleCloseDeleteDialog}
+                onConfirm={handleConfirmDelete}
+            />
         </div>
     );
 };

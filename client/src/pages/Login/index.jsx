@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import { Navigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
-import React from 'react';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import styles from './Login.module.scss';

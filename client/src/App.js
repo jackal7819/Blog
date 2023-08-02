@@ -1,11 +1,11 @@
 import { AddPost, FullPost, Home, Login, Registration } from './pages';
 import { Fragment, useEffect } from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { fetchAuthMe, handlerAuth } from './redux/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Container } from '@mui/material';
 import { Header } from './components/Header';
+import { fetchAuthMe } from './redux/authSlice';
+import { useDispatch } from 'react-redux';
 
 const router = createBrowserRouter([
     {
@@ -21,7 +21,8 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: 'posts/:id', element: <FullPost /> },
-            { path: 'add-post', element: <AddPost /> },
+            { path: 'posts/:id/edit', element: <AddPost /> },
+            { path: 'posts/create', element: <AddPost /> },
             { path: 'login', element: <Login /> },
             { path: 'register', element: <Registration /> },
         ],
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
 
 const App = () => {
     const dispatch = useDispatch();
-    const auth = useSelector(handlerAuth);
+    // const auth = useSelector(handlerAuth);
 
     useEffect(() => {
         dispatch(fetchAuthMe())

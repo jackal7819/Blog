@@ -1,6 +1,5 @@
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import React from 'react';
 import TextField from '@mui/material/TextField';
 import styles from './AddComment.module.scss';
 

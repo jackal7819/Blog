@@ -3,7 +3,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import React from 'react';
 import { SideBlock } from './SideBlock';
 import Skeleton from '@mui/material/Skeleton';
 import TagIcon from '@mui/icons-material/Tag';
