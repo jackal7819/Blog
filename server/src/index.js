@@ -5,6 +5,7 @@ import { getMe, login, register } from './controllers/UserController.js';
 import bearerToken from 'express-bearer-token';
 import checkAuth from './utils/checkAuth.js';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
 import handleValidation from './utils/handleValidation.js';
 import loginValidation from './validations/loginValidation.js';
@@ -13,11 +14,9 @@ import multer from 'multer';
 import postCreateValidation from './validations/postCreateValidation.js';
 import registerValidation from './validations/loginValidation.js';
 
-const mongoDBURL =
-    'mongodb+srv://jackal7819:31563156Qaz@blog.zprrjlj.mongodb.net/blog?retryWrites=true&w=majority';
+dotenv.config();
 
-mongoose
-    .connect(mongoDBURL)
+mongoose.connect(process.env.MONGODB_URL)
     .then(() => console.log('MongoDB connected'))
     .catch((error) => {
         console.error('Error connecting', error);
@@ -64,6 +63,6 @@ app.patch(
 
 app.get('/tags', getLastTags);
 
-app.listen(5555, () => {
+app.listen(process.env.PORT || 5555, () => {
     console.log('Server is running on port 5555');
 });
