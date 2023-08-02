@@ -1,0 +1,11 @@
+{
+    "name": "blog",
+    "version": "1.0.0",
+    "main": "server/src/index.js",
+    "scripts": {
+        "start": "node server/src/index.js"
+    },
+    "engines": {
+        "node": "v18.x"
+    }
+}
