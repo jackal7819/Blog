@@ -5,10 +5,8 @@ import { getMe, login, register } from './controllers/UserController.js';
 import bearerToken from 'express-bearer-token';
 import checkAuth from './utils/checkAuth.js';
 import cors from 'cors';
-import { dirname } from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
-import { fileURLToPath } from 'url';
 import fs from 'fs';
 import handleValidation from './utils/handleValidation.js';
 import loginValidation from './validations/loginValidation.js';
@@ -32,10 +30,10 @@ app.use(bearerToken());
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        if (!fs.existsSync('src/uploads')) {
-            fs.mkdirSync('src/uploads');
+        if (!fs.existsSync('uploads')) {
+            fs.mkdirSync('uploads');
         }
-        cb(null, 'src/uploads');
+        cb(null, 'uploads');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -46,11 +44,7 @@ const upload = multer({ storage });
 
 app.use(express.json());
 app.use(cors());
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-app.use('/uploads', express.static(`${__dirname}/src/uploads`));
+app.use('/uploads', express.static('uploads'));
 
 app.post('/auth/login', loginValidation, handleValidation, login);
 app.post('/auth/register', registerValidation, handleValidation, register);
@@ -77,4 +71,3 @@ app.get('/tags', getLastTags);
 app.listen(process.env.PORT || 5555, () => {
     console.log('Server is running on port 5555');
 });
-
