@@ -7,6 +7,7 @@ import checkAuth from './utils/checkAuth.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import fs from 'fs';
 import handleValidation from './utils/handleValidation.js';
 import loginValidation from './validations/loginValidation.js';
 import mongoose from 'mongoose';
@@ -16,7 +17,8 @@ import registerValidation from './validations/loginValidation.js';
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose
+    .connect(process.env.MONGODB_URL)
     .then(() => console.log('MongoDB connected'))
     .catch((error) => {
         console.error('Error connecting', error);
@@ -28,6 +30,9 @@ app.use(bearerToken());
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        if (!fs.existsSync('src/uploads')) {
+            fs.mkdirSync('src/uploads');
+        }
         cb(null, 'src/uploads');
     },
     filename: (req, file, cb) => {
