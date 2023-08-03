@@ -30,8 +30,8 @@ app.use(bearerToken());
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        if (!fs.existsSync('src/uploads')) {
-            fs.mkdirSync('src/uploads');
+        if (!fs.existsSync('uploads')) {
+            fs.mkdirSync('uploads');
         }
         cb(null, 'src/uploads');
     },
