@@ -31,7 +31,6 @@ const router = createBrowserRouter([
 
 const App = () => {
     const dispatch = useDispatch();
-    // const auth = useSelector(handlerAuth);
 
     useEffect(() => {
         dispatch(fetchAuthMe())
