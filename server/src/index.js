@@ -8,6 +8,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import fs from 'fs';
+import { getPostsByNew } from './controllers/PostController.js';
+import { getPostsByPopular } from './controllers/PostController.js';
+import { getPostsByTag } from './controllers/PostController.js';
+import { getPostsByTitle } from './controllers/PostController.js';
 import handleValidation from './utils/handleValidation.js';
 import loginValidation from './validations/loginValidation.js';
 import mongoose from 'mongoose';
@@ -55,6 +59,10 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 });
 
 app.get('/posts', getAll);
+app.get('/posts/new', getPostsByNew);
+app.get('/posts/popular', getPostsByPopular);
+app.get('/posts/title', getPostsByTitle);
+app.get('/posts/:tag', getPostsByTag);
 app.get('/posts/:id', getOne);
 app.post('/posts', checkAuth, postCreateValidation, handleValidation, create);
 app.delete('/posts/:id', checkAuth, remove);

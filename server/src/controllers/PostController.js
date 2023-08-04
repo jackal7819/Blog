@@ -11,6 +11,64 @@ export const getAll = async (req, res) => {
     }
 };
 
+export const getPostsByNew = async (req, res) => {
+    try {
+        const posts = await PostModel.find()
+            .populate('user')
+            .sort({ createdAt: -1 })
+            .exec();
+
+        res.json(posts);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error fetching posts.' });
+    }
+};
+
+export const getPostsByPopular = async (req, res) => {
+    try {
+        const posts = await PostModel.find()
+            .populate('user')
+            .sort({ viewsCount: -1 })
+            .exec();
+
+        res.json(posts);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error fetching posts.' });
+    }
+};
+
+export const getPostsByTitle = async (req, res) => {
+    try {
+        const posts = await PostModel.find()
+            .populate('user')
+            .sort({ title: 1 })
+            .exec();
+
+        res.json(posts);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error fetching posts.' });
+    }
+};
+
+export const getPostsByTag = async (req, res) => {
+    const selectedTag = req.query.tag;
+
+    try {
+        const posts = await PostModel.find({ tags: selectedTag })
+            .populate('user')
+            .sort({ createdAt: -1 })
+            .exec();
+
+        res.json(posts);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error fetching posts.' });
+    }
+};
+
 export const getLastTags = async (req, res) => {
     try {
         const posts = await PostModel.find().limit(5).exec();
