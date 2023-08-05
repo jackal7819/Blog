@@ -1,36 +1,60 @@
 import { Fragment, useEffect } from 'react';
-import { fetchPosts, fetchTags } from '../redux/postsSlice';
+import { fetchSortedPosts, postsActions } from '../redux/postsSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import Box from '@mui/material/Box';
 import { CommentsBlock } from '../components/CommentsBlock';
 import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { TagsBlock } from '../components/TagsBlock';
+import { fetchTags } from '../redux/postsSlice';
 
 export const Home = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
     const userData = useSelector((state) => state.auth.data);
     const { posts, tags } = useSelector((state) => state.posts);
+    const { sortBy } = posts;
 
     const postsLoading = posts.status === 'loading';
     const tagsLoading = tags.status === 'loading';
 
     useEffect(() => {
-        dispatch(fetchPosts());
+        const params = new URLSearchParams(location.search);
+        const sortParam = params.get('sort');
+
+        if (sortParam) {
+            dispatch(postsActions.setSortBy(sortParam));
+        }
+
+        dispatch(fetchSortedPosts(sortParam || sortBy));
         dispatch(fetchTags());
-    }, [dispatch]);
+    }, [dispatch, location.search, sortBy]);
+
+    const handleSortChange = (event, newValue) => {
+        dispatch(postsActions.setSortBy(newValue));
+        dispatch(fetchSortedPosts(newValue));
+        navigate(`/?sort=${newValue}`);
+    };
 
     return (
         <Fragment>
-            <Tabs
-                style={{ marginBottom: 15 }}
-                value={0}
-                aria-label='basic tabs example'>
-                <Tab label='New' />
-                <Tab label='Popular' />
-            </Tabs>
+            <Box sx={{ width: '100%', marginBottom: '20px' }}>
+                <Tabs
+                    value={sortBy}
+                    onChange={handleSortChange}
+                    textColor='secondary'
+                    indicatorColor='secondary'
+                    aria-label='secondary tabs example'>
+                    <Tab value='new' label='New' />
+                    <Tab value='popular' label='Popular' />
+                    <Tab value='title' label='Title' />
+                </Tabs>
+            </Box>
             <Grid container spacing={4}>
                 <Grid xs={8} item>
                     {(postsLoading ? [...Array(4)] : posts.items).map(
