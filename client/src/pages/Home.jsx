@@ -1,16 +1,15 @@
 import { Fragment, useEffect } from 'react';
+import { fetchPostsByTag, fetchTags } from '../redux/postsSlice';
 import { fetchSortedPosts, postsActions } from '../redux/postsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
-import { CommentsBlock } from '../components/CommentsBlock';
 import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { TagsBlock } from '../components/TagsBlock';
-import { fetchTags } from '../redux/postsSlice';
 
 export const Home = () => {
     const dispatch = useDispatch();
@@ -18,7 +17,7 @@ export const Home = () => {
     const location = useLocation();
     const userData = useSelector((state) => state.auth.data);
     const { posts, tags } = useSelector((state) => state.posts);
-    const { sortBy } = posts;
+    const { sortBy, tag } = posts;
 
     const postsLoading = posts.status === 'loading';
     const tagsLoading = tags.status === 'loading';
@@ -30,8 +29,6 @@ export const Home = () => {
         if (sortParam) {
             dispatch(postsActions.setSortBy(sortParam));
         }
-
-        dispatch(fetchSortedPosts(sortParam || sortBy));
         dispatch(fetchTags());
     }, [dispatch, location.search, sortBy]);
 
@@ -39,6 +36,13 @@ export const Home = () => {
         dispatch(postsActions.setSortBy(newValue));
         dispatch(fetchSortedPosts(newValue));
         navigate(`/?sort=${newValue}`);
+    };
+
+    const handleTagChange = (selectedTag) => {
+        dispatch(postsActions.setTag(selectedTag));
+        dispatch(fetchPostsByTag(selectedTag));
+        navigate(`/posts/${selectedTag}`);
+
     };
 
     return (
@@ -84,27 +88,11 @@ export const Home = () => {
                     )}
                 </Grid>
                 <Grid xs={4} item>
-                    <TagsBlock items={tags.items} isLoading={tagsLoading} />
-                    <CommentsBlock
-                        items={[
-                            {
-                                user: {
-                                    fullName: 'John Smith',
-                                    avatarUrl:
-                                        'https://mui.com/static/images/avatar/1.jpg',
-                                },
-                                text: 'This is a test comment',
-                            },
-                            {
-                                user: {
-                                    fullName: 'Alex Brin',
-                                    avatarUrl:
-                                        'https://mui.com/static/images/avatar/2.jpg',
-                                },
-                                text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-                            },
-                        ]}
-                        isLoading={false}
+                    <TagsBlock
+                        items={tags.items}
+                        isLoading={tagsLoading}
+                        selectedTag={tag}
+                        onTagChange={handleTagChange}
                     />
                 </Grid>
             </Grid>

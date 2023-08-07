@@ -54,7 +54,7 @@ export const getPostsByTitle = async (req, res) => {
 };
 
 export const getPostsByTag = async (req, res) => {
-    const selectedTag = req.query.tag;
+    const selectedTag = req.params.tag;
 
     try {
         const posts = await PostModel.find({ tags: selectedTag })
