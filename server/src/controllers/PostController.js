@@ -86,16 +86,16 @@ export const getLastTags = async (req, res) => {
 export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;
-
-        const doc = await PostModel.findOneAndUpdate(
-            { _id: postId },
-            { $inc: { viewsCount: 1 } },
-            { new: true }
-        ).populate('user');
+        console.log('Received request for post with ID:', postId);
+        
+        const doc = await PostModel.findById(postId).populate('user');
 
         if (!doc) {
             return res.status(404).json({ message: 'Article not found' });
         }
+
+        doc.viewsCount += 1;
+        await doc.save();
 
         res.json(doc);
     } catch (error) {
@@ -154,6 +154,7 @@ export const update = async (req, res) => {
                 imageUrl: req.body.imageUrl,
             }
         );
+        console.log(postId);
 
         res.json({ success: true });
     } catch (error) {

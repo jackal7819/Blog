@@ -19,7 +19,6 @@ export const Post = ({
     imageUrl,
     user,
     viewsCount,
-    commentsCount,
     tags,
     children,
     isFullPost,
@@ -87,7 +86,12 @@ export const Post = ({
                     <ul className={styles.tags}>
                         {tags.map((name) => (
                             <li key={name}>
-                                <Link to={`/tag/${name}`}>#{name}</Link>
+                                <Link
+                                    to={`https://www.google.com.ua/search?q=${name}`}
+                                    target='_blank'
+                                    rel='noreferrer'>
+                                    #{name}
+                                </Link>
                             </li>
                         ))}
                     </ul>
