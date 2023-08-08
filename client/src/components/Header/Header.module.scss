@@ -8,6 +8,8 @@
 .inner {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .logo {
@@ -18,8 +20,12 @@
     text-transform: uppercase;
     letter-spacing: 0.15px;
     border-radius: 5px;
-    padding: 0 10px;
+    padding: 10px 10px;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 
     &:hover {
         background-color: #9c27b0;
@@ -27,8 +33,11 @@
 }
 
 .buttons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
     button {
-        margin-left: 10px;
 
         &:hover {
             background-color: #9c27b0;

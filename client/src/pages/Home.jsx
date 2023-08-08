@@ -1,5 +1,4 @@
 import { Fragment, useEffect } from 'react';
-import { fetchPostsByTag, fetchTags } from '../redux/postsSlice';
 import { fetchSortedPosts, postsActions } from '../redux/postsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,6 +9,7 @@ import { Post } from '../components/Post';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { TagsBlock } from '../components/TagsBlock';
+import { fetchTags } from '../redux/postsSlice';
 
 export const Home = () => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export const Home = () => {
     const location = useLocation();
     const userData = useSelector((state) => state.auth.data);
     const { posts, tags } = useSelector((state) => state.posts);
-    const { sortBy, tag } = posts;
+    const { sortBy } = posts;
 
     const postsLoading = posts.status === 'loading';
     const tagsLoading = tags.status === 'loading';
@@ -29,6 +29,8 @@ export const Home = () => {
         if (sortParam) {
             dispatch(postsActions.setSortBy(sortParam));
         }
+
+        dispatch(fetchSortedPosts(sortParam || sortBy));
         dispatch(fetchTags());
     }, [dispatch, location.search, sortBy]);
 
@@ -36,13 +38,6 @@ export const Home = () => {
         dispatch(postsActions.setSortBy(newValue));
         dispatch(fetchSortedPosts(newValue));
         navigate(`/?sort=${newValue}`);
-    };
-
-    const handleTagChange = (selectedTag) => {
-        dispatch(postsActions.setTag(selectedTag));
-        dispatch(fetchPostsByTag(selectedTag));
-        navigate(`/posts/${selectedTag}`);
-
     };
 
     return (
@@ -59,12 +54,13 @@ export const Home = () => {
                     <Tab value='title' label='Title' />
                 </Tabs>
             </Box>
+            <TagsBlock items={tags.items} isLoading={tagsLoading} />
             <Grid container spacing={4}>
-                <Grid xs={8} item>
+                <Grid xs={12} item>
                     {(postsLoading ? [...Array(4)] : posts.items).map(
                         (obj, index) =>
                             postsLoading ? (
-                                <Post key={index} isLoading={true} />
+                                <Post key={Math.random()} isLoading={true} />
                             ) : (
                                 <Post
                                     _id={obj._id}
@@ -86,14 +82,6 @@ export const Home = () => {
                                 />
                             )
                     )}
-                </Grid>
-                <Grid xs={4} item>
-                    <TagsBlock
-                        items={tags.items}
-                        isLoading={tagsLoading}
-                        selectedTag={tag}
-                        onTagChange={handleTagChange}
-                    />
                 </Grid>
             </Grid>
         </Fragment>

@@ -10,16 +10,12 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 export const fetchSortedPosts = createAsyncThunk(
     'posts/fetchSortedPosts',
     async (sortBy) => {
-        const { data } = await axios.get(`/posts/${sortBy}`);
-        return data;
-    }
-);
-
-export const fetchPostsByTag = createAsyncThunk(
-    'posts/fetchPostsByTag',
-    async (tag) => {
-        const { data } = await axios.get(`/posts/${tag}`);
-        return data;
+        try {
+            const { data } = await axios.get(`/posts/${sortBy}`);
+            return data;
+        } catch (error) {
+            throw new Error('Error fetching sorted posts');
+        }
     }
 );
 
@@ -34,7 +30,7 @@ export const fetchRemovePost = createAsyncThunk(
 );
 
 const initialState = {
-    posts: { items: [], sortBy: 'new', tag: 'tag', status: 'loading' },
+    posts: { items: [], sortBy: 'new', status: 'loading' },
     tags: { items: [], status: 'loading' },
 };
 
@@ -44,9 +40,6 @@ const postsSlice = createSlice({
     reducers: {
         setSortBy: (state, action) => {
             state.posts.sortBy = action.payload;
-        },
-        setTag: (state, action) => {
-            state.posts.tag = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -71,18 +64,6 @@ const postsSlice = createSlice({
             state.posts.items = action.payload;
         });
         builder.addCase(fetchSortedPosts.rejected, (state) => {
-            state.posts.status = 'failed';
-            state.posts.items = [];
-        });
-        builder.addCase(fetchPostsByTag.pending, (state) => {
-            state.posts.status = 'loading';
-            state.posts.items = [];
-        });
-        builder.addCase(fetchPostsByTag.fulfilled, (state, action) => {
-            state.posts.status = 'succeeded';
-            state.posts.items = action.payload;
-        });
-        builder.addCase(fetchPostsByTag.rejected, (state) => {
             state.posts.status = 'failed';
             state.posts.items = [];
         });

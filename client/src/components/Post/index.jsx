@@ -1,4 +1,3 @@
-import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
@@ -99,10 +98,6 @@ export const Post = ({
                         <li>
                             <EyeIcon />
                             <span>{viewsCount}</span>
-                        </li>
-                        <li>
-                            <CommentIcon />
-                            <span>{commentsCount}</span>
                         </li>
                     </ul>
                 </div>

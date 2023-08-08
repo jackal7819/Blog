@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { CommentsBlock } from '../components/CommentsBlock';
-import { Index } from '../components/AddComment';
 import { Post } from '../components/Post';
 import ReactMarkdown from 'react-markdown';
 import axios from '../axios';
@@ -43,34 +41,11 @@ export const FullPost = () => {
                 user={data.user}
                 createdAt={new Date(data.createdAt).toLocaleString()}
                 viewsCount={data.viewsCount}
-                commentsCount={3}
                 tags={data.tags}
                 isEditable
                 isFullPost>
                 <ReactMarkdown children={data.text} />
             </Post>
-            <CommentsBlock
-                items={[
-                    {
-                        user: {
-                            fullName: 'John Smith',
-                            avatarUrl:
-                                'https://mui.com/static/images/avatar/1.jpg',
-                        },
-                        text: 'This is a test comment',
-                    },
-                    {
-                        user: {
-                            fullName: 'Alex Brin',
-                            avatarUrl:
-                                'https://mui.com/static/images/avatar/2.jpg',
-                        },
-                        text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-                    },
-                ]}
-                isLoading={false}>
-                <Index />
-            </CommentsBlock>
         </>
     );
 };

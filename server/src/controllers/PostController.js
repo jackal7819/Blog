@@ -74,7 +74,7 @@ export const getLastTags = async (req, res) => {
         const posts = await PostModel.find().limit(5).exec();
 
         const tagsSet = new Set(posts.map((obj) => obj.tags).flat());
-        const tags = Array.from(tagsSet).slice(-5);
+        const tags = Array.from(tagsSet).slice(-4);
 
         res.json(tags);
     } catch (error) {
