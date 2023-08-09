@@ -21,7 +21,7 @@ export const Header = () => {
             <Container maxWidth='lg'>
                 <div className={styles.inner}>
                     <Link className={styles.logo} to='/'>
-                        <div>{userData?.fullName ? userData.fullName : 'VIKTOR FILIPPOV'}</div>
+                        <div>{userData?.fullName ? userData.fullName : 'Metaphor Magic'}</div>
                     </Link>
                     <div className={styles.buttons}>
                         {isAuth ? (
