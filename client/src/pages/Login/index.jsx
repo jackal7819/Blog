@@ -2,12 +2,17 @@ import { fetchAuth, handlerAuth } from '../../redux/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import { Navigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import styles from './Login.module.scss';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 export const Login = () => {
     const isAuth = useSelector(handlerAuth);
@@ -25,6 +30,16 @@ export const Login = () => {
         },
         mode: 'onChange',
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
     const onSubmit = async (values) => {
     try {
@@ -68,6 +83,19 @@ export const Login = () => {
                 <TextField
                     className={styles.field}
                     label='Password'
+                    type={showPassword ? 'text' : 'password'}
+            InputProps={{
+                endAdornment: (
+                    <InputAdornment position="end">
+                        <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                        >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                    </InputAdornment>
+                ),
+            }}
                     error={Boolean(errors.password?.message)}
                     helperText={errors.password?.message}
                     {...register('password', {
