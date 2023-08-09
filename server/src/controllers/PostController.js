@@ -72,7 +72,6 @@ export const getPostsByTag = async (req, res) => {
 export const getLastTags = async (req, res) => {
     try {
         const posts = await PostModel.find().limit(5).exec();
-
         const tagsSet = new Set(posts.map((obj) => obj.tags).flat());
         const tags = Array.from(tagsSet).slice(-4);
 
@@ -86,8 +85,6 @@ export const getLastTags = async (req, res) => {
 export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;
-        console.log('Received request for post with ID:', postId);
-        
         const doc = await PostModel.findById(postId).populate('user');
 
         if (!doc) {
@@ -113,7 +110,6 @@ export const create = async (req, res) => {
             tags: req.body.tags,
             imageUrl: req.body.imageUrl,
         });
-
         const post = await doc.save();
 
         res.json(post);
@@ -126,7 +122,6 @@ export const create = async (req, res) => {
 export const remove = async (req, res) => {
     try {
         const postId = req.params.id;
-
         const doc = await PostModel.findOneAndDelete({ _id: postId });
 
         if (!doc) {

@@ -52,20 +52,21 @@ app.use('/uploads', express.static('uploads'));
 
 app.post('/auth/login', loginValidation, handleValidation, login);
 app.post('/auth/register', registerValidation, handleValidation, register);
-app.get('/auth/me', checkAuth, getMe);
-
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
     res.json({ url: `/uploads/${req.file.originalname}` });
 });
+app.post('/posts', checkAuth, postCreateValidation, handleValidation, create);
 
+app.get('/auth/me', checkAuth, getMe);
 app.get('/posts', getAll);
 app.get('/posts/new', getPostsByNew);
 app.get('/posts/popular', getPostsByPopular);
 app.get('/posts/title', getPostsByTitle);
-app.get('/posts/:tag', getPostsByTag);
+app.get('/posts/tags/:tag', getPostsByTag);
 app.get('/posts/:id', getOne);
-app.post('/posts', checkAuth, postCreateValidation, handleValidation, create);
+
 app.delete('/posts/:id', checkAuth, remove);
+
 app.patch(
     '/posts/:id',
     checkAuth,

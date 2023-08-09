@@ -12,7 +12,7 @@ export const TagsBlock = ({ items, isLoading = true }) => {
     return (
         <SideBlock>
             <Grid container spacing={{ xs: 2, md: 1 }}>
-                {(isLoading ? [...Array(5)] : items).map((name, index) => (
+                {(isLoading ? [...Array(4)] : items).map((name, index) => (
                     <Grid key={name ? name : index} xs={6} sm={4} md={3}>
                         <Link
                             style={{ textDecoration: 'none', color: 'black' }}
