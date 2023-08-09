@@ -46,8 +46,8 @@ export const Home = () => {
                 <Tabs
                     value={sortBy}
                     onChange={handleSortChange}
-                    textColor='secondary'
-                    indicatorColor='secondary'
+                    textColor='primary'
+                    indicatorColor='primary'
                     aria-label='secondary tabs example'>
                     <Tab value='new' label='New' />
                     <Tab value='popular' label='Popular' />
