@@ -10,6 +10,10 @@
     justify-content: space-between;
     gap: 20px;
     flex-wrap: wrap;
+
+    @media (max-width: 586px) {
+        justify-content: center;
+    }
 }
 
 .logo {
@@ -38,9 +42,9 @@
     align-items: center;
 
     button {
-
         &:hover {
             background-color: #9c27b0;
+            color: #ffffff;
         }
     }
 
